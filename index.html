@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>Java OCP Notes</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+            <h2>
+                <i class="fa-brands fa-java"></i>
+                Java OCP Notes
+            </h2>
+
+            <span class="module-badge">
+                15 Modules
+            </span>
+        </div>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search topics..."
+            />
+        </div>
+
+        <div
+            class="module-list"
+            id="moduleList"
+        >
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Top Header -->
+        <header class="topbar">
+
+            <div>
+                <h1 id="moduleTitle">
+                    Module 3 — Date & Time API
+                </h1>
+            </div>
+
+            <div class="priority-pill" id="priorityPill">
+                Priority: Medium–High
+            </div>
+
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                data-tab="overview"
+            >
+                Overview
+            </button>
+
+            <button
+                class="tab"
+                data-tab="topics"
+            >
+                Topics
+            </button>
+
+            <button
+                class="tab"
+                data-tab="traps"
+            >
+                Exam Traps
+            </button>
+
+            <button
+                class="tab"
+                data-tab="notes"
+            >
+                Notes
+            </button>
+
+        </div>
+
+        <!-- Dynamic Content -->
+        <section
+            class="content"
+            id="content"
+        >
+        </section>
+
+    </main>
+
+</div>
+
+<script src="./js/data.js"></script>
+<script src="./js/app.js"></script>
+
+</body>
+</html>
