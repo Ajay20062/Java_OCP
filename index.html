@@ -1,19 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     />
 
-    <title>Java OCP Notes</title>
+    <title>
+        Java OCP Dashboard v2
+    </title>
 
-    <link rel="stylesheet" href="./css/style.css" />
+    <!-- Fonts -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    />
 
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Icons -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="./css/style.css"
+    />
+
+    <link
+        rel="stylesheet"
+        href="./css/dashboard.css"
+    />
+
+    <link
+        rel="stylesheet"
+        href="./css/animations.css"
     />
 </head>
 
@@ -21,56 +57,181 @@
 
 <div class="app">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
+    <!-- ======================
+         SIDEBAR
+    ======================= -->
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
 
-        <div class="sidebar-header">
-            <h2>
-                <i class="fa-brands fa-java"></i>
-                Java OCP Notes
-            </h2>
+        <!-- LOGO -->
+        <div class="sidebar-top">
 
-            <span class="module-badge">
-                15 Modules
-            </span>
+            <div class="brand">
+
+                <div class="brand-icon">
+                    <i class="fa-brands fa-java"></i>
+                </div>
+
+                <div class="brand-text">
+
+                    <h2>
+                        Java OCP
+                    </h2>
+
+                    <p>
+                        Study Dashboard
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button
+                id="sidebarToggle"
+                class="sidebar-toggle"
+            >
+                <i
+                    class="fa-solid fa-bars"
+                ></i>
+            </button>
+
         </div>
 
-        <div class="search-box">
+        <!-- SEARCH -->
+        <div class="search-wrapper">
+
+            <i
+                class="fa-solid fa-magnifying-glass"
+            ></i>
+
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Search topics..."
+                placeholder="Search modules..."
             />
+
         </div>
 
+        <!-- FILTERS -->
+        <div class="filters">
+
+            <button
+                class="filter-btn active"
+                data-filter="all"
+            >
+                All
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="completed"
+            >
+                Completed
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="pending"
+            >
+                Pending
+            </button>
+
+        </div>
+
+        <!-- MODULES -->
         <div
             class="module-list"
             id="moduleList"
         >
         </div>
 
+        <!-- FOOTER -->
+        <div class="sidebar-footer">
+
+            <div class="streak-card">
+
+                <span>
+                    Study Streak
+                </span>
+
+                <h3 id="streakCount">
+                    0 Days
+                </h3>
+
+            </div>
+
+            <div class="progress-card">
+
+                <span>
+                    Overall Progress
+                </span>
+
+                <h3 id="overallProgress">
+                    0%
+                </h3>
+
+            </div>
+
+        </div>
+
     </aside>
 
-    <!-- Main -->
-    <main class="main-content">
+    <!-- ======================
+         MAIN
+    ======================= -->
+    <main class="main">
 
-        <!-- Top Header -->
+        <!-- TOPBAR -->
         <header class="topbar">
 
             <div>
+
                 <h1 id="moduleTitle">
-                    Module 3 — Date & Time API
+                    Dashboard Overview
                 </h1>
+
+                <p id="moduleSubtitle">
+                    Oracle Certified Professional
+                    Java SE 17 Developer
+                </p>
+
             </div>
 
-            <div class="priority-pill" id="priorityPill">
-                Priority: Medium–High
+            <div class="topbar-right">
+
+                <div
+                    class="priority-pill"
+                    id="priorityPill"
+                >
+                    High Priority
+                </div>
+
+                <button
+                    class="icon-btn"
+                    id="bookmarkBtn"
+                >
+                    <i
+                        class="fa-regular fa-bookmark"
+                    ></i>
+                </button>
+
+                <button
+                    class="icon-btn"
+                    id="themeBtn"
+                >
+                    <i
+                        class="fa-solid fa-moon"
+                    ></i>
+                </button>
+
             </div>
 
         </header>
 
-        <!-- Tabs -->
-        <div class="tabs">
+        <!-- TABS -->
+        <nav class="tabs">
 
             <button
                 class="tab active"
@@ -100,9 +261,16 @@
                 Notes
             </button>
 
-        </div>
+            <button
+                class="tab"
+                data-tab="analytics"
+            >
+                Analytics
+            </button>
 
-        <!-- Dynamic Content -->
+        </nav>
+
+        <!-- CONTENT -->
         <section
             class="content"
             id="content"
@@ -113,7 +281,18 @@
 
 </div>
 
+<!-- TOAST -->
+<div
+    class="toast"
+    id="toast"
+>
+</div>
+
+<!-- Scripts -->
 <script src="./js/data.js"></script>
+<script src="./js/storage.js"></script>
+<script src="./js/analytics.js"></script>
+<script src="./js/ui.js"></script>
 <script src="./js/app.js"></script>
 
 </body>
