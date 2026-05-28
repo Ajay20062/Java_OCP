@@ -4,32 +4,31 @@ const MODULES = [
     title:"Java Basics & Data Types",
     priority:"High",
     color:"orange",
+    icon:"fa-code",
 
     sections:[
         {
             name:"Program Structure",
             topics:[
-                "Class structure",
-                "main() method",
+                "Class Structure",
+                "main() Method",
                 "Packages",
                 "Imports",
-                "Compilation flow",
-                "Classpath basics"
+                "Compilation Process",
+                "Classpath Basics"
             ]
         },
-
         {
             name:"Variables",
             topics:[
-                "Local variables",
-                "Instance variables",
-                "Static variables",
-                "Final variables",
-                "Initialization rules",
-                "Scope & lifetime"
+                "Local Variables",
+                "Instance Variables",
+                "Static Variables",
+                "Final Variables",
+                "Initialization Rules",
+                "Scope & Lifetime"
             ]
         },
-
         {
             name:"Primitive Types",
             topics:[
@@ -42,15 +41,27 @@ const MODULES = [
                 "char",
                 "boolean"
             ]
+        },
+        {
+            name:"Operators",
+            topics:[
+                "Arithmetic Operators",
+                "Assignment Operators",
+                "Unary Operators",
+                "Binary Operators",
+                "Logical Operators",
+                "Relational Operators",
+                "Ternary Operator"
+            ]
         }
     ],
 
     traps:[
-        "Integer overflow",
+        "Integer overflow confusion",
+        "Pre/post increment mistakes",
         "Implicit casting pitfalls",
-        "Wrapper null unboxing",
-        "Pre/post increment confusion",
-        "Operator precedence mistakes"
+        "Operator precedence errors",
+        "Wrapper null unboxing"
     ]
 },
 
@@ -59,32 +70,32 @@ const MODULES = [
     title:"Strings & StringBuilder",
     priority:"High",
     color:"orange",
+    icon:"fa-font",
 
     sections:[
         {
             name:"String Basics",
             topics:[
-                "String pool",
+                "String Pool",
                 "Immutability",
-                "Heap objects",
+                "Heap vs Pool",
                 "Literal vs new String()",
-                "String comparison"
+                "String Comparison"
             ]
         },
-
         {
             name:"String Methods",
             topics:[
                 "substring()",
                 "indexOf()",
-                "contains()",
                 "replace()",
+                "contains()",
                 "trim()",
                 "strip()",
-                "repeat()"
+                "repeat()",
+                "isBlank()"
             ]
         },
-
         {
             name:"StringBuilder",
             topics:[
@@ -100,17 +111,18 @@ const MODULES = [
 
     traps:[
         "== vs equals() confusion",
-        "String immutability",
-        "trim() vs strip()",
-        "isBlank() vs isEmpty()"
+        "String immutability misunderstanding",
+        "trim() vs strip() confusion",
+        "StringBuilder mutability traps"
     ]
 },
 
 {
     id:3,
     title:"Date & Time API",
-    priority:"Medium–High",
+    priority:"Medium-High",
     color:"green",
+    icon:"fa-clock",
 
     sections:[
         {
@@ -124,14 +136,14 @@ const MODULES = [
                 "Period"
             ]
         },
-
         {
             name:"Formatting",
             topics:[
-                "parse()",
                 "DateTimeFormatter",
-                "Pattern formatting",
-                "Localized formatting"
+                "parse()",
+                "format()",
+                "Pattern Formatting",
+                "Localized Formatting"
             ]
         }
     ],
@@ -139,15 +151,16 @@ const MODULES = [
     traps:[
         "Invalid date values",
         "Formatter case sensitivity",
-        "Immutability confusion"
+        "Date immutability confusion"
     ]
 },
 
 {
     id:4,
-    title:"Program Flow Control",
+    title:"Control Flow",
     priority:"High",
     color:"orange",
+    icon:"fa-code-branch",
 
     sections:[
         {
@@ -159,7 +172,6 @@ const MODULES = [
                 "ternary operator"
             ]
         },
-
         {
             name:"Loops",
             topics:[
@@ -170,23 +182,21 @@ const MODULES = [
                 "nested loops"
             ]
         },
-
         {
             name:"Switch",
             topics:[
-                "traditional switch",
-                "switch expression",
+                "Traditional switch",
+                "Switch Expressions",
                 "yield",
-                "arrow syntax"
+                "Arrow Syntax"
             ]
         }
     ],
 
     traps:[
-        "Switch fallthrough",
-        "Infinite loops",
-        "break vs continue",
-        "Scope visibility"
+        "Infinite loop bugs",
+        "Switch fallthrough mistakes",
+        "break vs continue confusion"
     ]
 },
 
@@ -195,44 +205,44 @@ const MODULES = [
     title:"Object-Oriented Programming",
     priority:"Very High",
     color:"red",
+    icon:"fa-cubes",
 
     sections:[
         {
             name:"Classes & Objects",
             topics:[
-                "Object creation",
-                "Reference variables",
-                "Garbage collection"
+                "Object Creation",
+                "Constructors",
+                "Reference Variables",
+                "Garbage Collection"
             ]
         },
-
         {
             name:"Inheritance",
             topics:[
                 "extends",
                 "super",
-                "overriding",
-                "polymorphism",
-                "upcasting",
-                "downcasting"
+                "Method Overriding",
+                "Polymorphism",
+                "Upcasting",
+                "Downcasting"
             ]
         },
-
         {
-            name:"Interfaces",
+            name:"Abstraction",
             topics:[
-                "default methods",
-                "functional interfaces",
-                "abstract classes"
+                "Abstract Classes",
+                "Interfaces",
+                "Default Methods",
+                "Functional Interfaces"
             ]
         }
     ],
 
     traps:[
-        "Constructor chaining",
-        "Overloading vs overriding",
-        "Hidden methods",
-        "Polymorphic references"
+        "Constructor chaining mistakes",
+        "Overriding vs overloading",
+        "Polymorphic reference confusion"
     ]
 },
 
@@ -241,10 +251,11 @@ const MODULES = [
     title:"Exception Handling",
     priority:"High",
     color:"orange",
+    icon:"fa-triangle-exclamation",
 
     sections:[
         {
-            name:"Exception Basics",
+            name:"Basics",
             topics:[
                 "try",
                 "catch",
@@ -253,22 +264,21 @@ const MODULES = [
                 "throws"
             ]
         },
-
         {
             name:"Advanced",
             topics:[
-                "multi-catch",
+                "Multi-catch",
                 "try-with-resources",
                 "AutoCloseable",
-                "custom exceptions"
+                "Custom Exceptions"
             ]
         }
     ],
 
     traps:[
-        "Catch ordering",
+        "Catch ordering issue",
         "finally return behavior",
-        "Unchecked vs checked"
+        "Checked vs unchecked confusion"
     ]
 },
 
@@ -277,18 +287,18 @@ const MODULES = [
     title:"Arrays & Collections",
     priority:"Very High",
     color:"red",
+    icon:"fa-table",
 
     sections:[
         {
             name:"Arrays",
             topics:[
-                "1D arrays",
-                "2D arrays",
+                "1D Arrays",
+                "2D Arrays",
                 "Arrays.sort()",
                 "binarySearch()"
             ]
         },
-
         {
             name:"Collections",
             topics:[
@@ -303,7 +313,7 @@ const MODULES = [
     ],
 
     traps:[
-        "HashSet ordering",
+        "HashSet ordering assumption",
         "List.of() immutability",
         "Comparator confusion"
     ]
@@ -314,6 +324,7 @@ const MODULES = [
     title:"Streams & Lambdas",
     priority:"Very High",
     color:"red",
+    icon:"fa-water",
 
     sections:[
         {
@@ -325,7 +336,6 @@ const MODULES = [
                 "Function"
             ]
         },
-
         {
             name:"Streams",
             topics:[
@@ -341,8 +351,8 @@ const MODULES = [
 
     traps:[
         "Consumed streams",
-        "Lazy execution",
-        "Infinite stream issue"
+        "Lazy evaluation confusion",
+        "Infinite stream mistakes"
     ]
 },
 
@@ -351,6 +361,7 @@ const MODULES = [
     title:"Modules & Deployment",
     priority:"Medium",
     color:"blue",
+    icon:"fa-box",
 
     sections:[
         {
@@ -365,16 +376,16 @@ const MODULES = [
     ],
 
     traps:[
-        "Module visibility",
-        "exports restrictions"
+        "Module visibility confusion"
     ]
 },
 
 {
     id:10,
     title:"Concurrency",
-    priority:"Medium–High",
+    priority:"Medium-High",
     color:"green",
+    icon:"fa-microchip",
 
     sections:[
         {
@@ -382,23 +393,22 @@ const MODULES = [
             topics:[
                 "Runnable",
                 "Callable",
-                "Thread lifecycle"
+                "Thread Lifecycle"
             ]
         },
-
         {
             name:"Executors",
             topics:[
                 "ExecutorService",
                 "Future",
-                "Scheduled executors"
+                "Scheduled Executors"
             ]
         }
     ],
 
     traps:[
+        "Race conditions",
         "Deadlocks",
-        "Race condition",
         "Shared mutable state"
     ]
 },
@@ -408,17 +418,17 @@ const MODULES = [
     title:"Java I/O & NIO",
     priority:"Medium",
     color:"blue",
+    icon:"fa-folder",
 
     sections:[
         {
-            name:"Streams",
+            name:"I/O",
             topics:[
-                "Byte streams",
-                "Character streams",
-                "Buffered streams"
+                "Byte Streams",
+                "Character Streams",
+                "Buffered Streams"
             ]
         },
-
         {
             name:"NIO",
             topics:[
@@ -431,8 +441,8 @@ const MODULES = [
     ],
 
     traps:[
-        "Path confusion",
-        "File closing issue"
+        "File closing issue",
+        "Path confusion"
     ]
 },
 
@@ -441,10 +451,11 @@ const MODULES = [
     title:"JDBC",
     priority:"Medium",
     color:"blue",
+    icon:"fa-database",
 
     sections:[
         {
-            name:"Core",
+            name:"Core JDBC",
             topics:[
                 "DriverManager",
                 "Connection",
@@ -456,7 +467,7 @@ const MODULES = [
     ],
 
     traps:[
-        "SQL injection",
+        "SQL Injection",
         "Connection leaks"
     ]
 },
@@ -466,13 +477,14 @@ const MODULES = [
     title:"Localization",
     priority:"Medium",
     color:"blue",
+    icon:"fa-globe",
 
     sections:[
         {
-            name:"Locale",
+            name:"Localization",
             topics:[
-                "Locale class",
-                "Resource bundles",
+                "Locale",
+                "ResourceBundle",
                 "Formatting"
             ]
         }
@@ -486,8 +498,9 @@ const MODULES = [
 {
     id:14,
     title:"Logging & Annotations",
-    priority:"Low–Medium",
+    priority:"Low-Medium",
     color:"blue",
+    icon:"fa-file-lines",
 
     sections:[
         {
@@ -495,10 +508,9 @@ const MODULES = [
             topics:[
                 "Logger",
                 "Handlers",
-                "Log levels"
+                "Log Levels"
             ]
         },
-
         {
             name:"Annotations",
             topics:[
@@ -519,23 +531,23 @@ const MODULES = [
     title:"Generics",
     priority:"High",
     color:"orange",
+    icon:"fa-layer-group",
 
     sections:[
         {
             name:"Generics Basics",
             topics:[
-                "Generic classes",
-                "Generic methods",
-                "Type inference"
+                "Generic Classes",
+                "Generic Methods",
+                "Type Inference"
             ]
         },
-
         {
             name:"Wildcards",
             topics:[
                 "? extends",
                 "? super",
-                "PECS principle"
+                "PECS Principle"
             ]
         }
     ],

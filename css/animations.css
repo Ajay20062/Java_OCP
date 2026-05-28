@@ -1,0 +1,257 @@
+/* ==========================
+   FADE IN
+========================== */
+
+.fade-in{
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ==========================
+   SCALE IN
+========================== */
+
+.scale-in{
+    animation:scaleIn .25s ease;
+}
+
+@keyframes scaleIn{
+    from{
+        opacity:0;
+        transform:scale(.96);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* ==========================
+   SLIDE UP
+========================== */
+
+.slide-up{
+    animation:slideUp .4s ease;
+}
+
+@keyframes slideUp{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ==========================
+   HOVER EFFECTS
+========================== */
+
+.card,
+.stat-card,
+.module-card,
+.analytics-card,
+.topic-card,
+.trap-item{
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.card:hover,
+.stat-card:hover,
+.module-card:hover,
+.analytics-card:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.18);
+}
+
+/* ==========================
+   BUTTON ANIMATION
+========================== */
+
+button{
+    transition:
+        transform .2s ease,
+        opacity .2s ease,
+        background .2s ease;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+/* ==========================
+   SIDEBAR COLLAPSE
+========================== */
+
+.sidebar{
+    transition:
+        width .25s ease,
+        min-width .25s ease;
+}
+
+.sidebar.collapsed
+.brand-text,
+.sidebar.collapsed
+.search-wrapper input,
+.sidebar.collapsed
+.filters,
+.sidebar.collapsed
+.sidebar-footer,
+.sidebar.collapsed
+.module-sub{
+    display:none;
+}
+
+.sidebar.collapsed
+.module-item{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.sidebar.collapsed
+.module-title{
+    justify-content:center;
+}
+
+.sidebar.collapsed
+.module-title span:last-child{
+    display:none;
+}
+
+/* ==========================
+   TOAST
+========================== */
+
+.toast{
+    position:fixed;
+
+    right:24px;
+    bottom:24px;
+
+    min-width:220px;
+    max-width:320px;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    background:#22c55e;
+    color:#07110a;
+
+    font-size:13px;
+    font-weight:700;
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,.25);
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:
+        translateY(20px);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease,
+        visibility .25s ease;
+
+    z-index:9999;
+}
+
+.toast.show{
+    opacity:1;
+    visibility:visible;
+
+    transform:
+        translateY(0);
+}
+
+/* ==========================
+   LOADING SHIMMER
+========================== */
+
+.skeleton{
+    position:relative;
+    overflow:hidden;
+
+    background:#1d2330;
+}
+
+.skeleton::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    transform:
+        translateX(-100%);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.06),
+            transparent
+        );
+
+    animation:
+        shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+    100%{
+        transform:
+            translateX(100%);
+    }
+}
+
+/* ==========================
+   PROGRESS BAR ANIMATION
+========================== */
+
+.progress-fill{
+    animation:
+        progressGrow .7s ease;
+}
+
+@keyframes progressGrow{
+    from{
+        width:0;
+    }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px){
+
+    .toast{
+        left:18px;
+        right:18px;
+        bottom:18px;
+
+        max-width:none;
+    }
+}

@@ -1,643 +1,481 @@
-let currentModule = MODULES[0];
-let currentTab = "overview";
+/* ==========================
+   INIT
+========================== */
 
-const moduleList = document.getElementById("moduleList");
-const content = document.getElementById("content");
-const moduleTitle = document.getElementById("moduleTitle");
-const priorityPill = document.getElementById("priorityPill");
-const searchInput = document.getElementById("searchInput");
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-const tabs = document.querySelectorAll(".tab");
+        initApp();
+    }
+);
 
-/* ---------------------------
-   LOCAL STORAGE
---------------------------- */
+/* ==========================
+   APP START
+========================== */
 
-function getLearnedTopics() {
-    return JSON.parse(
-        localStorage.getItem("learnedTopics")
-    ) || {};
+function initApp() {
+
+    updateStudyStreak();
+
+    streakCount.textContent =
+        `${getStudyStreak()} Days`;
+
+    updateHeader();
+
+    renderSidebar();
+
+    renderContent();
+
+    setupTabs();
+
+    setupFilters();
+
+    setupSearch();
+
+    setupSidebarToggle();
+
+    setupThemeToggle();
+
+    setupBookmark();
+
+    keyboardShortcuts();
 }
 
-function saveLearnedTopics(data) {
-    localStorage.setItem(
-        "learnedTopics",
-        JSON.stringify(data)
-    );
-}
+/* ==========================
+   TABS
+========================== */
 
-function getNotes(moduleId) {
-    return localStorage.getItem(
-        `notes-${moduleId}`
-    ) || "";
-}
+function setupTabs() {
 
-function saveNotes(moduleId, text) {
-    localStorage.setItem(
-        `notes-${moduleId}`,
-        text
-    );
-}
-
-/* ---------------------------
-   PROGRESS
---------------------------- */
-
-function getModuleProgress(module) {
-
-    const learned = getLearnedTopics();
-
-    let total = 0;
-    let completed = 0;
-
-    module.sections.forEach(section => {
-
-        section.topics.forEach(topic => {
-
-            total++;
-
-            const key =
-                `${module.id}-${topic}`;
-
-            if (learned[key]) {
-                completed++;
-            }
-        });
-    });
-
-    return {
-        total,
-        completed,
-        percent:
-            total === 0
-                ? 0
-                : Math.round(
-                    (completed / total) * 100
-                )
-    };
-}
-
-function getTotalProgress() {
-
-    let totalTopics = 0;
-    let completedTopics = 0;
-
-    MODULES.forEach(module => {
-
-        const progress =
-            getModuleProgress(module);
-
-        totalTopics += progress.total;
-        completedTopics +=
-            progress.completed;
-    });
-
-    return {
-        totalTopics,
-        completedTopics,
-        percent:
-            totalTopics === 0
-                ? 0
-                : Math.round(
-                    (
-                        completedTopics /
-                        totalTopics
-                    ) * 100
-                )
-    };
-}
-
-/* ---------------------------
-   SIDEBAR
---------------------------- */
-
-function renderSidebar(search = "") {
-
-    moduleList.innerHTML = "";
-
-    const filtered =
-        MODULES.filter(module =>
-            module.title
-                .toLowerCase()
-                .includes(
-                    search.toLowerCase()
-                )
+    const tabs =
+        document.querySelectorAll(
+            ".tab"
         );
 
-    filtered.forEach(module => {
+    tabs.forEach(tab => {
 
-        const progress =
-            getModuleProgress(module);
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "module-item";
-
-        if (
-            currentModule.id ===
-            module.id
-        ) {
-            div.classList.add(
-                "active"
-            );
-        }
-
-        div.innerHTML = `
-            <div class="module-title">
-                <span class="dot ${module.color}">
-                </span>
-
-                ${module.id}.
-                ${module.title}
-            </div>
-
-            <div class="module-sub">
-                ${progress.completed}
-                /
-                ${progress.total}
-                topics ·
-                ${module.priority}
-            </div>
-        `;
-
-        div.addEventListener(
+        tab.addEventListener(
             "click",
             () => {
 
-                currentModule =
-                    module;
-
-                updateHeader();
-                renderSidebar(
-                    searchInput.value
+                tabs.forEach(
+                    btn =>
+                    btn.classList.remove(
+                        "active"
+                    )
                 );
+
+                tab.classList.add(
+                    "active"
+                );
+
+                currentTab =
+                    tab.dataset.tab;
+
                 renderContent();
             }
-        );
-
-        moduleList.appendChild(
-            div
         );
     });
 }
 
-/* ---------------------------
-   HEADER
---------------------------- */
+/* ==========================
+   FILTERS
+========================== */
 
-function updateHeader() {
+function setupFilters() {
 
-    moduleTitle.textContent =
-        `Module ${currentModule.id} — ${currentModule.title}`;
+    const filters =
+        document.querySelectorAll(
+            ".filter-btn"
+        );
 
-    priorityPill.textContent =
-        `Priority: ${currentModule.priority}`;
+    filters.forEach(btn => {
+
+        btn.addEventListener(
+            "click",
+            () => {
+
+                filters.forEach(
+                    item =>
+                    item.classList.remove(
+                        "active"
+                    )
+                );
+
+                btn.classList.add(
+                    "active"
+                );
+
+                currentFilter =
+                    btn.dataset.filter;
+
+                renderSidebar();
+            }
+        );
+    });
 }
 
-/* ---------------------------
-   TABS
---------------------------- */
+/* ==========================
+   SEARCH
+========================== */
 
-tabs.forEach(tab => {
+function setupSearch() {
 
-    tab.addEventListener(
+    searchInput
+    .addEventListener(
+        "input",
+        () => {
+
+        renderSidebar();
+    });
+}
+
+/* ==========================
+   SIDEBAR TOGGLE
+========================== */
+
+function setupSidebarToggle() {
+
+    const toggleBtn =
+        document.getElementById(
+            "sidebarToggle"
+        );
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+    toggleBtn
+    .addEventListener(
         "click",
         () => {
 
-            tabs.forEach(t =>
-                t.classList.remove(
-                    "active"
-                )
+        sidebar.classList.toggle(
+            "collapsed"
+        );
+    });
+}
+
+/* ==========================
+   THEME TOGGLE
+========================== */
+
+function setupThemeToggle() {
+
+    const themeBtn =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    const body =
+        document.body;
+
+    const savedTheme =
+        localStorage.getItem(
+            "ocp_theme"
+        );
+
+    if (
+        savedTheme ===
+        "light"
+    ) {
+
+        enableLightTheme();
+    }
+
+    themeBtn
+    .addEventListener(
+        "click",
+        () => {
+
+        const isLight =
+            body.classList.contains(
+                "light"
             );
+
+        if (
+            isLight
+        ) {
+
+            disableLightTheme();
+
+        } else {
+
+            enableLightTheme();
+        }
+    });
+}
+
+function enableLightTheme() {
+
+    document.body
+    .classList.add(
+        "light"
+    );
+
+    localStorage.setItem(
+        "ocp_theme",
+        "light"
+    );
+
+    showToast(
+        "Light mode enabled"
+    );
+}
+
+function disableLightTheme() {
+
+    document.body
+    .classList.remove(
+        "light"
+    );
+
+    localStorage.setItem(
+        "ocp_theme",
+        "dark"
+    );
+
+    showToast(
+        "Dark mode enabled"
+    );
+}
+
+/* ==========================
+   BOOKMARK
+========================== */
+
+function setupBookmark() {
+
+    const bookmarkBtn =
+        document.getElementById(
+            "bookmarkBtn"
+        );
+
+    updateBookmarkIcon();
+
+    bookmarkBtn
+    .addEventListener(
+        "click",
+        () => {
+
+        toggleBookmark(
+            currentModule.id
+        );
+
+        updateBookmarkIcon();
+
+        showToast(
+            isBookmarked(
+                currentModule.id
+            )
+            ? "Bookmarked"
+            : "Bookmark removed"
+        );
+    });
+}
+
+function updateBookmarkIcon() {
+
+    const icon =
+        document
+        .querySelector(
+            "#bookmarkBtn i"
+        );
+
+    if (
+        isBookmarked(
+            currentModule.id
+        )
+    ) {
+
+        icon.className =
+        "fa-solid fa-bookmark";
+
+    } else {
+
+        icon.className =
+        "fa-regular fa-bookmark";
+    }
+}
+
+/* ==========================
+   KEYBOARD SHORTCUTS
+========================== */
+
+function keyboardShortcuts() {
+
+    document
+    .addEventListener(
+        "keydown",
+        e => {
+
+        /* CTRL + K SEARCH */
+
+        if (
+            e.ctrlKey
+            &&
+            e.key.toLowerCase()
+            === "k"
+        ) {
+
+            e.preventDefault();
+
+            searchInput.focus();
+
+            showToast(
+                "Search opened"
+            );
+        }
+
+        /* CTRL + S SAVE NOTES */
+
+        if (
+            e.ctrlKey
+            &&
+            e.key.toLowerCase()
+            === "s"
+        ) {
+
+            e.preventDefault();
+
+            const area =
+                document
+                .getElementById(
+                    "notesArea"
+                );
+
+            if (
+                area
+            ) {
+
+                saveNote(
+                    currentModule.id,
+                    area.value
+                );
+
+                showToast(
+                    "Notes saved"
+                );
+            }
+        }
+
+        /* ALT + 1 → OVERVIEW */
+
+        if (
+            e.altKey
+            &&
+            e.key === "1"
+        ) {
+
+            switchTab(
+                "overview"
+            );
+        }
+
+        /* ALT + 2 → TOPICS */
+
+        if (
+            e.altKey
+            &&
+            e.key === "2"
+        ) {
+
+            switchTab(
+                "topics"
+            );
+        }
+
+        /* ALT + 3 → NOTES */
+
+        if (
+            e.altKey
+            &&
+            e.key === "3"
+        ) {
+
+            switchTab(
+                "notes"
+            );
+        }
+
+        /* ALT + 4 → ANALYTICS */
+
+        if (
+            e.altKey
+            &&
+            e.key === "4"
+        ) {
+
+            switchTab(
+                "analytics"
+            );
+        }
+    });
+}
+
+/* ==========================
+   TAB SWITCH HELPER
+========================== */
+
+function switchTab(
+    tabName
+) {
+
+    currentTab =
+        tabName;
+
+    document
+    .querySelectorAll(
+        ".tab"
+    )
+    .forEach(tab => {
+
+        tab.classList.remove(
+            "active"
+        );
+
+        if (
+            tab.dataset.tab
+            === tabName
+        ) {
 
             tab.classList.add(
                 "active"
             );
-
-            currentTab =
-                tab.dataset.tab;
-
-            renderContent();
         }
-    );
-});
-
-/* ---------------------------
-   OVERVIEW
---------------------------- */
-
-function renderOverview() {
-
-    const progress =
-        getTotalProgress();
-
-    return `
-        <div class="card">
-
-            <h2 class="card-title">
-                Overall Progress
-            </h2>
-
-            <div class="progress-wrapper">
-
-                <div
-                    style="
-                    display:flex;
-                    justify-content:
-                    space-between;
-                    margin-bottom:12px;
-                ">
-
-                    <strong>
-                        ${progress.percent}%
-                    </strong>
-
-                    <span>
-                        ${progress.completedTopics}
-                        /
-                        ${progress.totalTopics}
-                        topics
-                    </span>
-
-                </div>
-
-                <div
-                    class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        style="
-                        width:
-                        ${progress.percent}%"
-                    >
-                    </div>
-
-                </div>
-            </div>
-
-            <div
-                style="
-                display:grid;
-                grid-template-columns:
-                repeat(auto-fill,
-                minmax(280px,1fr));
-                gap:20px;
-            ">
-
-                ${MODULES.map(module => {
-
-                    const p =
-                        getModuleProgress(
-                            module
-                        );
-
-                    return `
-                    <div
-                        class="topic-card"
-                    >
-                        <h3>
-                            ${module.id}.
-                            ${module.title}
-                        </h3>
-
-                        <p
-                            style="
-                            color:gray;
-                            margin-top:8px;
-                        ">
-                            ${module.priority}
-                        </p>
-
-                        <div
-                            style="
-                            margin-top:16px;
-                        ">
-
-                            <div
-                                class=
-                                "progress-bar">
-
-                                <div
-                                    class=
-                                    "progress-fill"
-                                    style="
-                                    width:
-                                    ${p.percent}%"
-                                ></div>
-                            </div>
-
-                            <div
-                                style="
-                                margin-top:10px;
-                            ">
-                                ${p.completed}
-                                /
-                                ${p.total}
-                                topics
-                            </div>
-
-                        </div>
-                    </div>
-                    `;
-                }).join("")}
-            </div>
-
-        </div>
-    `;
-}
-
-/* ---------------------------
-   TOPICS
---------------------------- */
-
-function renderTopics() {
-
-    const learned =
-        getLearnedTopics();
-
-    const progress =
-        getModuleProgress(
-            currentModule
-        );
-
-    return `
-        <div class="card">
-
-            <h2 class="card-title">
-                Topics
-            </h2>
-
-            <div
-                class="progress-wrapper">
-
-                <div
-                    style="
-                    display:flex;
-                    justify-content:
-                    space-between;
-                    margin-bottom:10px;
-                ">
-
-                    <strong>
-                        ${progress.percent}%
-                    </strong>
-
-                    <span>
-                        ${progress.completed}
-                        /
-                        ${progress.total}
-                    </span>
-
-                </div>
-
-                <div
-                    class=
-                    "progress-bar">
-
-                    <div
-                        class=
-                        "progress-fill"
-                        style="
-                        width:
-                        ${progress.percent}%"
-                    ></div>
-                </div>
-            </div>
-
-            ${currentModule.sections.map(
-                section => `
-                <div
-                    style="
-                    margin-bottom:40px;
-                ">
-
-                    <h3
-                        style="
-                        margin-bottom:20px;
-                    ">
-                        ${section.name}
-                    </h3>
-
-                    <div
-                        class=
-                        "topic-grid">
-
-                        ${section.topics.map(
-                            topic => {
-
-                            const key =
-                                `${currentModule.id}-${topic}`;
-
-                            const completed =
-                                learned[key];
-
-                            return `
-                            <div
-                                class=
-                                "topic-card
-                                ${
-                                completed
-                                ? "completed"
-                                : ""
-                                }"
-
-                                onclick=
-                                "toggleTopic(
-                                '${key}'
-                                )"
-                            >
-                                ${topic}
-                            </div>
-                            `;
-                        }).join("")}
-                    </div>
-                </div>
-            `
-            ).join("")}
-
-        </div>
-    `;
-}
-
-/* ---------------------------
-   EXAM TRAPS
---------------------------- */
-
-function renderTraps() {
-
-    return `
-        <div class="card">
-
-            <h2 class="card-title">
-                Exam Traps
-            </h2>
-
-            <div
-                class="trap-list">
-
-                ${currentModule.traps
-                    .map(
-                    trap => `
-                    <div
-                        class=
-                        "trap-item">
-
-                        <i
-                            class=
-                            "fa-solid
-                            fa-triangle-exclamation">
-                        </i>
-
-                        ${trap}
-                    </div>
-                `
-                )
-                .join("")}
-
-            </div>
-        </div>
-    `;
-}
-
-/* ---------------------------
-   NOTES
---------------------------- */
-
-function renderNotes() {
-
-    const note =
-        getNotes(
-            currentModule.id
-        );
-
-    return `
-        <div class="card">
-
-            <h2 class="card-title">
-                Notes
-            </h2>
-
-            <textarea
-                id="notesArea"
-                placeholder=
-                "Write notes..."
-            >${note}</textarea>
-
-            <button
-                class="save-btn"
-                onclick=
-                "saveCurrentNote()"
-            >
-                Save Notes
-            </button>
-
-        </div>
-    `;
-}
-
-/* ---------------------------
-   MAIN CONTENT
---------------------------- */
-
-function renderContent() {
-
-    if (
-        currentTab ===
-        "overview"
-    ) {
-
-        content.innerHTML =
-            renderOverview();
-
-    } else if (
-        currentTab ===
-        "topics"
-    ) {
-
-        content.innerHTML =
-            renderTopics();
-
-    } else if (
-        currentTab ===
-        "traps"
-    ) {
-
-        content.innerHTML =
-            renderTraps();
-
-    } else {
-
-        content.innerHTML =
-            renderNotes();
-    }
-}
-
-/* ---------------------------
-   TOPIC TOGGLE
---------------------------- */
-
-function toggleTopic(
-    key
-) {
-
-    const learned =
-        getLearnedTopics();
-
-    learned[key] =
-        !learned[key];
-
-    saveLearnedTopics(
-        learned
-    );
-
-    renderSidebar(
-        searchInput.value
-    );
+    });
 
     renderContent();
 }
 
-/* ---------------------------
-   SAVE NOTES
---------------------------- */
+/* ==========================
+   MODULE CHANGE FIX
+========================== */
 
-function saveCurrentNote() {
+const originalRenderSidebar =
+    renderSidebar;
 
-    const text =
-        document.getElementById(
-            "notesArea"
-        ).value;
+renderSidebar =
+function () {
 
-    saveNotes(
-        currentModule.id,
-        text
-    );
+    originalRenderSidebar();
 
-    alert(
-        "Notes saved!"
-    );
-}
+    updateBookmarkIcon();
+};
 
-/* ---------------------------
-   SEARCH
---------------------------- */
+/* ==========================
+   OPTIONAL EXPORT BUTTON
+========================== */
 
-searchInput.addEventListener(
-    "input",
-    e => {
+window.exportProgress =
+    exportProgress;
 
-        renderSidebar(
-            e.target.value
-        );
-    }
+/* ==========================
+   DEBUG
+========================== */
+
+console.log(
+    "Java OCP Dashboard v2 Loaded"
 );
-
-/* ---------------------------
-   INITIALIZE
---------------------------- */
-
-updateHeader();
-renderSidebar();
-renderContent();
